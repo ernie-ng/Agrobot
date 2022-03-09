@@ -1,0 +1,282 @@
+[Sept 22nd:]----------------------------------------------------------------------------------------------------------------------------------
+
+-learn cmds on raspberry pi console window.
+"cat /etc/os-release" checks what version of Linux is running on the pi.
+Raspbian GNU/Linux 8 (Jessie)
+"sudo apt-get update" :updates the pi.
+
+-downloaded Ubuntu Mate 20.04.3 LTS (Recommended for stability and mission critical systems) from https://ubuntu-mate.org/download/armhf/
+-instructions on flashing the Ubuntu Mate image from https://ubuntu-mate.org/faq/usb-image/
+-instructions on ROS for Jessie http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Kinetic%20on%20the%20Raspberry%20Pi
+
+-Flashed Ubuntu 16.04 (LXDE) and ROS Kinetic installed on new SD card.
+-Install ROS and Ubuntu Mate. CHECK
+
+-Followed instructions on http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment to create a ROS Workspace.
+Now that my environment is setup, continue with the ROS file system tutorial.
+
+You may have noticed a pattern with the naming of the ROS tools:
+
+rospack = ros + pack(age)
+roscd = ros + cd
+rosls = ros + ls
+This naming pattern holds for many of the ROS tools.
+
+Now that you can get around in ROS, let's create a package.
+
+-Followed instructions on http://wiki.ros.org/ROS/Tutorials/CreatingPackage
+
+[Sept 24:]----------------------------------------------------------------------------------------------------------------------------------
+Tried installing atom. atom package is atom-amd64.deb but pi system runs armhf. (didnt really work)
+installing gedit through synaptic package manager.
+installed the editor. to run, $ python filename.py in terminal
+Applied little heatsinks on the pi.
+completed lesson Beginner 5 (understanding ROS nodes)
+- got a turtlesim window from lesson 5
+
+[Sept 29:]----------------------------------------------------------------------------------------------------------------------------------
+- got to control the turtle inside the turtlesim node
+initiate the turtle sim by rosrun turtlesim turtlesim_node
+control the turtle with arrow keys by rosrun turtlesim turtle_teleop_key
+Understanding ROS topics: giving commands to the turtle to move
+rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'
+continuous movments:
+rostopic pub /turtle1/cmd_vel geometry_msgs/Twist -r 1 -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, -1.8]'
+completed Beginnger 1.1.6
+
+jumping to 1.1.12 on writing a publisher and subscriber in python.
+-every node starts with: #!/usr/bin/env python
+This first line makes sure your scripts is executed as a python script.
+two other important includes are:
+
+import rospy                       				//need this when writing a ROS node
+from std_msgs.msg import String    				//this allows reusing std_msgs/String message type for publishing.
+pub = rospy.Publisher('chatter', String, queue_size=10)		//this says that the node is publishing to the chatter topic as strings
+rospy.init_node('talker', anonymous=True)			
+rate = rospy.Rate(10) # 10hz					//we should expect to go through the loop 10 times per second
+
+[Oct 1:]----------------------------------------------------------------------------------------------------------------------------------
+Switching up to experimenting with the arduino.
+Arduino libraries can be found on this site for the sabertooth motor 2x32:
+https://www.dimensionengineering.com/info/arduino
+
+installing arduino 1.8.16 linux arm-32bit on the raspberry pi 3B
+with arduino running, the pi is operating at a very laggy state. losing patience.
+-going thoug the rosserial_arduino tutorial: http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino%20IDE%20Setup
+
+
+[Oct 6:]----------------------------------------------------------------------------------------------------------------------------------
+
+connected the arduino to the computer and successfully uploaded the eaxmple code "blink" on the controller by following this instructions:
+https://create.arduino.cc/projecthub/techno_z/program-your-arduino-from-your-raspberry-pi-3407d4
+
+Followed this: https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/
+in order to connect the arduino to the raspberry pi, since it was not detecting the UNO.
+Switched the usb printer cable to a new one for connecting oscilloscopes and the pi detected the arduino as /dev/ttys1
+
+[Oct 15:]---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- sabertooth motor 2x32 manual pg 22 talks about serial connection with MCU and the motor driver.
+-diverted to fixing the ROS library in the pi for the arduino to be able to use it.
+-got rid of the old ros library and got the new one into the Arduino/libraries folder.
+-test the pi and the arduino connection with the HelloWorld example:
+	-roscore  					     //initiate a ros instance
+	-rosrun rosserial_python serial_node.py /dev/ttyACM0 //run the rosserial client application that forwards your Arduino messages to the rest of ROS.
+	-rostopic echo chatter				     //enter in a new terminal window.
+
+-very close to getting teleop twist to work.
+
+[Oct 20:]---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Running motors with arduino and the sabertooth controller, no ROS yet.
+
+Tank sweep example moves the motors fine. 0 is stop; ST is the object name of Sabertooth, so to call drive it is ST.drive(<value>).
+The value spans from -127 to 127, for ST.drive() -127 is full speed reverse and 127 is full speed forward. ST.turn() works in a similar fashion.
+-127 is full speed left turn and 127 is full speed right. 
+
+[Oct 22:]-------------------------------------------------------------------------------------------------------------------------------
+
+Figuring out how to use the talker node. HelloWorld example worked with the listener.
+-Following: http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29 to have a listner node.
+
+Tried updating CMAKE to a newer version but it was a screwing up with ROS. Now nothing ROS related works. Looking into reinstalling ROS.
+
+
+[Oct 29:]-------------------------------------------------------------------------------------------------------------------------------
+-Fixed ROS over the previous weekend, all libraries are usable.
+-Retested the motor driver at which power supply settings does the motors start to move. Power supply at 7.5v at 2.0A running the tank sweep.
+-Apply this power supply setting to the teleop motor code.
+
+[Nov 3:]-------------------------------------------------------------------------------------------------------------------------------
+-Finally get to move a motor with teleop_twist_keyboard! dip switch settings (1-6, 1=on, 0=off): 0,0,1,0,1,1
+-Tweaked the code a bit in order to drive both motors and turn left and right, originally it didnt turn due to the code being in RWD setting.
+-played with the wireless charging module.
+
+[Nov 5:]-------------------------------------------------------------------------------------------------------------------------------
+-looking up all the components to see required wattage for the robot.
+-buy power bank for electronic components. short usb typc cable
+4 motors at 7-10v each.
+
+[Nov 10:]-------------------------------------------------------------------------------------------------------------------------------
+-Rotated the Robot box 90 degrees, so it is now longer but wheels have more space. Relocated the battery switches and the respective 4 motors.
+-Still need to reconnect all the motor connections to the node bar to the motor driver.
+-found a battery bank on amazon: https://www.amazon.ca/26800mAh-Portable-External-Smartphone-Cellphone/dp/B0856T77H4/ref=sr_1_3?keywords=Xooparc&qid=1636577776&smid=A3NZN2GKWGGCNM&sr=8-3
+
+[Nov 12:]------------------------------------------------------------------------------------------------------------------------------------------------
+-got a lesson of solidworks from lab tech. Michael and drawn out a new box for the robot main body.
+-printed the box over the weekend.
+
+[Nov 17:]------------------------------------------------------------------------------------------------------------------------------------------------
+-Started working on the new box.
+-transferring stuff over there and cable managing.
+
+[Nov 19:]------------------------------------------------------------------------------------------------------------------------------------------------
+-James updated us about the report:
+	Motivation for project
+	Literature/ state of the art
+	Progress of project
+	Plan for next semester:
+		Gantt chart?
+		Milestones?
+		Purchases/Budget?
+
+-Will be presenting a poster board.
+-Worked on the new box some more.
+
+
+
+
+
+
+
+[Jan 12:]------------------------------------------------------------------------------------------------------------------------------------------------
+-Back in the lab, remembering what i last did to the robot. Researched a bit about the lidar online, tried to install some drivers in the lab PC.
+Using the windows drivers for the lidar is simple. YdLidar site has support for the X4. Able to operate the lidar and screenshoted some pictures (lidar_me).
+
+-looked a bit at how this lidar work on linux, a bit confused.
+
+[Jan 14:]------------------------------------------------------------------------------------------------------------------------------------------------
+- There was an update on the raspberry pi, /boot is 85% full can't install the update. Might need a larger SD card, hope this update doesn't matter.
+-Huge headache on why the system only allocate 66MB for /boot partiton. tried "sudo apt autoremove" to get rid of some old stuff, didn't work.
+
+-watched some videos on ROS powering YdLidar X4, most tutorials seem to expect I already know the basics.
+
+[Jan 19:]------------------------------------------------------------------------------------------------------------------------------------------------
+-spend some time trying to operate the lidar in linux. (Huge headache) :(
+"roslaunch ydlidar_ros_driver X4.launch" launches and initiates the lidar.
+"roslaunch ydlidar_ros_driver lidar_view.launch"  this brings up rviz environment.
+-Kept getting "error, cannot retrieve ydlidar health code: ffffffff" no solution
+-couple hours later, i notice before the error message come up the lidar does slightly move and my keyboard LED turns off then back on and the error appears.
+I'm guessing the lidar isn't getting enough juice, so i plugged in my own micro USB into the usb_pwr of the lidar adapter. AND YOU KNOW WHAT?!
+it was able to run the ydlidar_test. F I N A L L Y !
+
+will rerun "roslaunch ydlidar_ros_driver X4.launch" and  "roslaunch ydlidar_ros_driver lidar_view.launch" again.
+
+[Jan 21:]------------------------------------------------------------------------------------------------------------------------------------------------ 
+
+clear up some resources on the PI for running more smoothly ie deleting things, updating files, removing junk.
+
+[Jan 26:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+Collecting bottles of various sizes and colour for LiDAR experiments.
+Watched some videos on RVIZ.
+
+[Jan 28:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+Designing experiment on testing the accuracy of the LiDAR at various distances in my room/hallway.
+Prop up the LiDAR at a elevation depicting the mounted height on the robot.
+
+collecting different objects of different sizes for testing minimum detected dimension.
+
+[Feb 2]------------------------------------------------------------------------------------------------------------------------------------------------
+figuring out how exactly do i take the data?
+capture screenshots
+connected the LiDAR back to a windows PC for faster operation. The PI is slow.
+
+[Feb 4:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[Feb 9:]------------------------------------------------------------------------------------------------------------------------------------------------
+Tried some detection testing with the bottles and night with lights out.
+Indoor usage were consistent, outdoor usage where direct sun light disrupts detection.
+
+In line with data spec sheet that the Lidar standard version subject to interference in outdoor strong sunlight
+reflection environments. This may cause permanent damage to the vision system's sensor chip, thus invalidating the distance measurement.
+
+[Feb 11:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[Feb 16:]------------------------------------------------------------------------------------------------------------------------------------------------
+Back on campus for assistant on code and maybe testing LiDAR in a different location.
+Try sending binary data over pyserial.
+
+Possibly dropping ROS and just use serial commands with the Arduino.
+
+[Feb 18:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+Reran "roslaunch ydlidar_ros_driver X4.launch" and  "roslaunch ydlidar_ros_driver lidar_view.launch" again.
+Applied secondary power in addition to the usb power from the PI.
+RVIS shows the LiDAR detections.
+
+Suggestion online says something about gmapping, Such maps are used in robot navigation and Simultaneous Localization and Mapping (SLAM) applications in robotics. 
+http://wiki.ros.org/gmapping
+
+Start recording scans and transforms (note that the scan topic may vary from robot to robot):
+"rosbag record -O mylaserdata /base_scan /tf" doesn't work. 
+
+To make a map from a robot with a laser publishing scans on the base_scan topic:
+"rosrun gmapping slam_gmapping scan:=base_scan"
+
+Note: On the PR2, the odom frame is named odom_combined. Use the command:
+"rosrun gmapping slam_gmapping scan:=base_scan _odom_frame:=odom_combined"
+can't find the executable for gmapping
+
+I tried "roslaunch gmapping slam_gmappin_pr2.launch"
+
+[Feb 28:]------------------------------------------------------------------------------------------------------------------------------------------------
+switched to using hector slam which did give a mapping window
+
+Following a arduino hub guide:  https://create.arduino.cc/projecthub/361126/autonomous-uv-robot-with-slam-215203
+Went through steps 1 - 6, on 7 trying to map out my room.
+
+getting an error for mapping.
+Figured out the cmake version issue. Rosserial requires a newer version of cmake but updating cmake is a whole other story of breaking ROS. So in order to 
+catkin_make new packages, i simply have to move the rosserial package momentarily to the desktop and catkin_make whatever package is in catkin_ws.
+
+my room and the hallway was mapped.
+
+[Mar 2:]------------------------------------------------------------------------------------------------------------------------------------------------
+User can drive the robot around to map a environment and store it in ~/catkin_ws/src/hector_slam/hector_geotiff/maps 
+as a .tif and a .tfw files.
+
+RUN THESE COMMANDS IN THIS ORDER:
+
+rosrun rosserial_python serial_node.py /dev/ttyACM0
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+roslauch ydlidar lidar.launch
+roslaunch hector_slam_launch tutorial.launch
+
+the second terminal window (teleop) must be on top in order to read the keyboard presses.
+
+when happy with the map, run this to save it:
+rostopic pub syscommand std_msgs/String "savegeotiff"
+
+Now figuring out the "Autonomous" part of the robot.
+
+[Mar 4:]------------------------------------------------------------------------------------------------------------------------------------------------
+Felt sick stayed home. I searched up navigations and ways to read the stored rviz maps. https://www.youtube.com/watch?v=HLLmV9LQoac was a good video about 
+navigation. the video mentioned a similar robot NOX was also using teleop, cmd_vel topics.
+
+Reread William's paper and online articles on navigating rviz map files. Also talked to William and ask couple questions.
+
+[Mar 9:]------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://yoraish.com/2021/09/08/a-full-autonomous-stack-a-tutorial-ros-raspberry-pi-arduino-slam/
+
+This site elaborates more on the saving map. I believe my map saved can possibly be corrupted,
+this poses a potential problem for end user.
+
+
+
+
+
+
+
