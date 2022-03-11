@@ -280,6 +280,12 @@ will remap the lab room for the .tif and .twf files.
 
 [Mar 11:]------------------------------------------------------------------------------------------------------------------------------------------------
 
+Remapped the lab room again, had file saving problem when running "rostopic pub syscommand std_msgs/String "savegeotiff"
+ it only saves the .tfw file but no .tif file. I looked up online, possibly the .tif file is not yet supported
+
+http://wiki.ros.org/hector_slam/Tutorials/MappingUsingLoggedData
+
+had some info but didnt really help. The Unsupported image file problem still exist.
 
 
 
