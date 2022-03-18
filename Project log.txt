@@ -301,14 +301,24 @@ reinstalled Arduino successfully, all arduino libraries still entact.
 
 With the new and improved, upgraded SD card on the Pi. Trying to test if i can now save .tif and .tfw files as my map.
 
+After launching lidar.launch and have rviz up with a dummy map. I tried saving the map file but i still get the same error.
 
+QFontDatabase: Cannot find font directory /use/lib/arm-linux-gnueabihf/fonts - is Qt installed correctly?
+Writing image file ... failed with error Unsupported image format.
 
+I read a bit more on yorashibot site:
+He said "Let’s begin by downloading the map server that will do the heavy lifting for us."
+possibly im just missing this.
 
+sudo apt-get install ros-kinetic-map-server
 
+YES! i managed to generate a .yaml and .pgm file
 
+should have a look at this:
+https://answers.ros.org/question/104966/using-hector-mapping-for-odometry-with-amcl-for-localization-in-a-pre-given-map/
 
+explains how the robot know where it is on a given map.
 
-
-
+now im figuring out how to localize and navigate the robot with a given map.
 
 
