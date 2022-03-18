@@ -287,6 +287,26 @@ http://wiki.ros.org/hector_slam/Tutorials/MappingUsingLoggedData
 
 had some info but didnt really help. The Unsupported image file problem still exist.
 
+[Mar 16:]-------------------------------------------------------------------------------------
+Raspberry Pi 4 is ARM 32 bit.
+Raspberry Pi running low on storage, reinstalling arduino and getting rid of some unwated software.
+
+took the raspberry Pi home and cloned it to a 16GB SD card. I have now expanded the PI_BOOT partition and ROOT partition.
+Also updated most of the security updates, there is some "other updates" problably optional that comes from an unathenticated source,
+then the update stops.
+
+reinstalled Arduino successfully, all arduino libraries still entact.
+
+[Mar 18]--------------------------------------------------------------------------------------
+
+With the new and improved, upgraded SD card on the Pi. Trying to test if i can now save .tif and .tfw files as my map.
+
+
+
+
+
+
+
 
 
 
