@@ -1,11 +1,11 @@
-#include <ArduinoHardware.h>
-#include <ros.h>
-#include <ArduinoTcpHardware.h>
-
 
 /*
  * rosserial Publisher Example
  * Prints "hello world!"
+ */
+
+ /*run in terminal window: rosrun rosserial_python serial_node.py /dev/ttyACM0 
+ in another window, run: rostopic echo chatter
  */
 
 #include <ros.h>
