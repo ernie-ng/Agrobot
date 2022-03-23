@@ -321,4 +321,16 @@ explains how the robot know where it is on a given map.
 
 now im figuring out how to localize and navigate the robot with a given map.
 
+[Mar 23]---------------------------------------------------------------------------------------------
 
+After reading the web post above, no real idea how to utilize \tf exactly or odom.
+
+trying the hector_map_server thing.
+taking a break from mapping, trying to look at arduino code for self driving. 
+yoraish has an example, understand what it's trying to do.
+
+https://github.com/yoraish/lidar_bot/blob/master/src/arduino/cmd_vel_sub_steer/cmd_vel_sub_steer.ino
+
+worked a bit on self_drive.ino
+
+looked online for instruction manual templates, worked a bit on that as well.
