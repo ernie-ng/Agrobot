@@ -334,3 +334,16 @@ https://github.com/yoraish/lidar_bot/blob/master/src/arduino/cmd_vel_sub_steer/c
 worked a bit on self_drive.ino
 
 looked online for instruction manual templates, worked a bit on that as well.
+
+[Mar 25]---------------------------------------------------------------------------------------------
+
+Did some cable routing tidy things up, made cable routing hole on top plate.
+workshop day.
+
+[Mar 29]---------------------------------------------------------------------------------------------
+
+working on stepper motor code, routed the stepper motor cable through new hole.
+arduino code stepperMotor.ino
+stepper motor controls the arm of the attachment.
+Spec Sheet: https://media.digikey.com/pdf/Data%20Sheets/DFRobot%20PDFs/SER0020_Web.pdf
+
