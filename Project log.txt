@@ -347,3 +347,6 @@ arduino code stepperMotor.ino
 stepper motor controls the arm of the attachment.
 Spec Sheet: https://media.digikey.com/pdf/Data%20Sheets/DFRobot%20PDFs/SER0020_Web.pdf
 
+[Apr 1]---------------------------------------------------------------------------------------------
+
+Got the servo motor working. orange is signal, red is Vcc, brown is gnd.
