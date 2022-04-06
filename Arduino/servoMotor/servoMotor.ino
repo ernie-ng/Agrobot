@@ -30,9 +30,24 @@ void loop() {
     delay(15);                       // waits 15ms for the servo to reach the position
   }
   delay(500); //wait  0.5s before moving again.
-  for (pos = 180; pos >= 90; pos -= 1) { // goes from 180 degrees to 90 degrees
+  
+  for (pos = 180; pos >= 135; pos -= 5) { // goes from 180 degrees to 90 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
   delay(500); //wait  0.5s before moving again.
+  for (pos = 135; pos <= 180; pos += 5) { // goes from 180 degrees to 90 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+  delay(500); //wait  0.5s before moving again.
+
+  
+  for (pos = 180; pos >= 90; pos -= 1) { // goes from 90 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+  
+  delay(1000); //wait  30.0s before moving again.
 }
