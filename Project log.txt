@@ -1,3 +1,6 @@
+
+-----------------------------[FULL PROJECT LOG]-----------------------------
+
 [Sept 22nd:]----------------------------------------------------------------------------------------------------------------------------------
 
 -learn cmds on raspberry pi console window.
@@ -348,5 +351,11 @@ stepper motor controls the arm of the attachment.
 Spec Sheet: https://media.digikey.com/pdf/Data%20Sheets/DFRobot%20PDFs/SER0020_Web.pdf
 
 [Apr 1]---------------------------------------------------------------------------------------------
-
 Got the servo motor working. orange is signal, red is Vcc, brown is gnd.
+Started working on some of the servo code.
+
+[Apr 5]---------------------------------------------------------------------------------------------
+Coded the servo motor to perform "shaking off grass".
+
+[Apr 8]---------------------------------------------------------------------------------------------
+Wired up all components for presentation.
